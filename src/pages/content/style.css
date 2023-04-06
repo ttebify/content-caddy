@@ -1,0 +1,62 @@
+.content_caddy-highlight {
+  border-radius: 2px;
+  outline-width: 2px;
+  outline-offset: 2px;
+  outline-color: #d3b200;
+  outline-style: solid;
+  position: relative;
+}
+
+#content_caddy-tooltip {
+  position: absolute;
+  background-color: white;
+  box-shadow: 2px 2px 4px 0px #3f3f3fc7;
+  border-radius: 5px;
+  padding: 10px;
+  padding-top: 0px;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  border-width: 1px 0px 0px 1px;
+  border-style: solid;
+  border-color: #cfcfcf;
+  z-index: 9999;
+}
+
+#content_caddy-tooltip #row {
+  display: flex;
+  align-items: center;
+}
+
+#content_caddy-tooltip p {
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: #7f7f7f;
+  padding: 2px;
+  margin-top: 0px;
+}
+
+#content_caddy-tooltip button {
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  margin-left: 5px;
+}
+
+#content_caddy-tooltip button:hover {
+  background-color: #e0e0e0;
+}
+
+#content_caddy-tooltip img {
+  width: 24px;
+  height: 24px;
+}
