@@ -1,6 +1,6 @@
 import React from "react";
-import type { Tab } from "../types";
 import clsx from "clsx";
+import type { Tab } from "@src/types";
 
 interface SidebarProps {
   setActiveTab: React.Dispatch<React.SetStateAction<Tab>>;

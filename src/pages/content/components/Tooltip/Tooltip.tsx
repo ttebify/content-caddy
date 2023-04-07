@@ -92,7 +92,7 @@ export default function Tooltip() {
         document.removeEventListener("keydown", handleKeyDown);
       };
     }
-  }, [extensionState.config.isExtensionEnabled]);
+  }, [extensionState?.config.isExtensionEnabled]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.ctrlKey && event.code === "KeyC") {
