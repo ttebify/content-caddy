@@ -14,7 +14,7 @@
   "homepage": "https://github.com/ttebify/content-caddy#readme",
   "scripts": {
     "build": "tsc --noEmit && vite build",
-    "build:watch": "vite build --watch",
+    "build:watch": "cross-env __DEV__=true vite build --watch",
     "build:hmr": "rollup --config utils/reload/rollup.config.ts",
     "wss": "node utils/reload/initReloadServer.js",
     "dev": "npm run build:hmr && (run-p wss build:watch)",
@@ -39,6 +39,7 @@
     "@typescript-eslint/parser": "5.57.1",
     "@vitejs/plugin-react": "3.1.0",
     "chokidar": "^3.5.3",
+    "cross-env": "^7.0.3",
     "eslint": "8.37.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "4.2.1",
