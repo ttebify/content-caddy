@@ -27,3 +27,5 @@ To run tests, run `yarn test`. This will run all tests using Jest.
 ## Credits
 
 This project was created from the template [Chrome Extension Boilerplate with React + Vite + Typescript.](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
+
+The icons used in this extension were provided by [Icons8](https://icons8.com/). We would like to thank them for their excellent work and for making these icons available for use in our project.
