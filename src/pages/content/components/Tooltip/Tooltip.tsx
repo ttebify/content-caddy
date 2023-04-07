@@ -1,68 +1,106 @@
-import React, { useEffect, useRef, useState } from "react";
+import type { ExtensionConfigAndSocials, Social } from "@src/types";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-const socials = [
-  {
-    name: "twitter",
-    image: "/assets/icons/twitter.png",
-    className: "twitter-button",
-  },
-  {
-    name: "linkedin",
-    image: "/assets/icons/linkedin.png",
-    className: "linkedin-button",
-  },
+const actions = [
   {
     name: "bookmark",
-    image: "/assets/icons/bookmark.png",
-    className: "bookmark-button",
   },
   {
     name: "copy",
-    image: "/assets/icons/copy.png",
-    className: "copy-button",
   },
   {
     name: "add",
-    image: "/assets/icons/add.png",
-    className: "add-button",
   },
 ];
 
-const MAX_TEXT_LENGTH = 1000; // Maximum character limit for Twitter
-// const MAX_URL_TEXT_LENGTH = 200;
+const onlyActiveSocials = (socials: Social[]) => {
+  return socials.filter((s) => s.enabled === true);
+};
 
 export default function Tooltip() {
   const [selectedText, setSelectedText] = useState("");
+  const [extensionState, setExtensionState] =
+    useState<ExtensionConfigAndSocials>();
 
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    chrome.runtime.onMessage.addListener(function (request) {
-      if (request.type === "createBookmark") {
-        if (request.success) {
-          console.log(request.message);
-        } else {
-          console.log(request.message);
-        }
+    chrome.storage.sync.get(
+      ["config", "socials"],
+      (result: ExtensionConfigAndSocials) => {
+        setExtensionState({
+          config: result.config,
+          socials: onlyActiveSocials(result.socials),
+        });
+      }
+    );
+
+    // Listen for changes in chrome.storage.sync
+    chrome.storage.onChanged.addListener((changes) => {
+      if (changes.config) {
+        setExtensionState((state) => ({
+          ...state,
+          config: changes.config.newValue,
+        }));
+      }
+
+      if (changes.socials) {
+        setExtensionState((state) => ({
+          ...state,
+          socials: onlyActiveSocials(changes.socials.newValue),
+        }));
       }
     });
 
-    document.addEventListener("mouseup", handleSelection);
-    document.addEventListener("keydown", handleKeyDown);
-
+    // Cleanup function to remove the listener when the component unmounts
     return () => {
-      document.removeEventListener("mouseup", handleSelection);
-      document.removeEventListener("keydown", handleKeyDown);
+      chrome.storage.onChanged.removeListener((changes) => {
+        if (changes.config) {
+          setExtensionState((state) => ({
+            ...state,
+            config: changes.config.newValue,
+          }));
+        }
+
+        if (changes.socials) {
+          setExtensionState((state) => ({
+            ...state,
+            socials: onlyActiveSocials(changes.socials.newValue),
+          }));
+        }
+      });
     };
   }, []);
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  useEffect(() => {
+    if (extensionState && !extensionState.config.isExtensionEnabled) {
+      chrome.runtime.onMessage.addListener(function (request) {
+        if (request.type === "createBookmark") {
+          if (request.success) {
+            console.log(request.message);
+          } else {
+            console.log(request.message);
+          }
+        }
+      });
+
+      document.addEventListener("mouseup", handleSelection);
+      document.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.removeEventListener("mouseup", handleSelection);
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [extensionState.config.isExtensionEnabled]);
+
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.ctrlKey && event.code === "KeyC") {
       handleSelection(event);
     }
-  };
+  }, []);
 
-  const handleSelection = (event: MouseEvent | KeyboardEvent) => {
+  const handleSelection = useCallback((event: MouseEvent | KeyboardEvent) => {
     const selection = window.getSelection();
     const range = document.createRange();
 
@@ -149,7 +187,7 @@ export default function Tooltip() {
         removePreviousSelection();
       }
     }
-  };
+  }, []);
 
   function removePreviousSelection() {
     // Remove previous highlight if any
@@ -166,7 +204,7 @@ export default function Tooltip() {
     }
   }
 
-  const handleButtonClick = (name: string) => {
+  const handleButtonClick = (name: string, characterLimit?: number) => {
     const buttonName = name;
     removePreviousSelection();
 
@@ -183,26 +221,42 @@ export default function Tooltip() {
         break;
 
       case "twitter":
-        if (selectedText.length <= MAX_TEXT_LENGTH) {
-          const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-            selectedText
-          )}`;
-          window.open(twitterUrl, "_blank");
+      case "linkedin":
+      case "facebook":
+        if (characterLimit && selectedText.length <= characterLimit) {
+          const encodedText = encodeURIComponent(selectedText);
+          const encodedSource =
+            extensionState?.config?.quoteSource &&
+            extensionState.config.quoteSource === true
+              ? encodeURIComponent(
+                  `\n\n__source: ${
+                    document.title ? document.title : "Untitled page"
+                  }`
+                )
+              : "";
+          const shareUrl =
+            buttonName === "twitter"
+              ? `https://twitter.com/intent/tweet?text=${encodedText}${encodedSource}`
+              : buttonName === "linkedin"
+              ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                  window.location.href
+                )}&title=${encodedText}${encodedSource}`
+              : `https://www.facebook.com/sharer.php?u=${encodeURIComponent(
+                  window.location.href
+                )}&quote=${encodedText}${encodedSource}`;
+          window.open(shareUrl, "_blank");
         } else {
-          alert("Text exceeds maximum length for tweeting!");
+          alert(`Text exceeds maximum length for sharing on ${buttonName}!`);
         }
         break;
 
-      case "linkedin":
-        if (selectedText.length <= MAX_TEXT_LENGTH) {
-          const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-            window.location.href
-          )}&title=${encodeURIComponent(selectedText)}`;
-          window.open(linkedinUrl, "_blank");
-        } else {
-          alert("Text exceeds maximum length for sharing on LinkedIn!");
-        }
+      case "whatsapp": {
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+          selectedText
+        )}`;
+        window.open(whatsappUrl, "_blank");
         break;
+      }
 
       case "add":
         // TODO: Implement bookmarking functionality
@@ -239,16 +293,33 @@ export default function Tooltip() {
     >
       <p>Remember with ease</p>
       <div id="row">
-        {socials.map((social) => (
+        {extensionState &&
+          extensionState.socials.map((social) => (
+            <button
+              key={social.name}
+              type="button"
+              onClick={() => {
+                handleButtonClick(social.name, social.characterLimit);
+              }}
+            >
+              <img
+                src={chrome.runtime.getURL(`assets/icons/${social.name}.png`)}
+                alt={social.name}
+              />
+            </button>
+          ))}
+        {actions.map((action) => (
           <button
-            key={social.name}
+            key={action.name}
             type="button"
-            className={social.className}
             onClick={() => {
-              handleButtonClick(social.name);
+              handleButtonClick(action.name);
             }}
           >
-            <img src={chrome.runtime.getURL(social.image)} alt={social.name} />
+            <img
+              src={chrome.runtime.getURL(`assets/icons/${action.name}.png`)}
+              alt={action.name}
+            />
           </button>
         ))}
       </div>
