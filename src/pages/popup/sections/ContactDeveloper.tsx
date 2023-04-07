@@ -4,7 +4,9 @@ function ContactDeveloper() {
   return (
     <div className="container">
       <div className="contact">
-        <div className="profile-picture"></div>
+        <div>
+          <a href="https://github.com/ttebify/content-caddy" target="_blank">https://github.com/ttebify/content-caddy</a>
+        </div>
         <h2>Justice Ekemezie</h2>
         <p>I illuminate concepts with code and prose</p>
         <div className="icons">
