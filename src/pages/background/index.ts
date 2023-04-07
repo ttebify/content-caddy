@@ -1,3 +1,4 @@
+import type { Bookmark, ExtensionDefaultState } from "@src/types";
 import reloadOnUpdate from "virtual:reload-on-update-in-background-script";
 
 reloadOnUpdate("pages/background");
@@ -7,6 +8,52 @@ reloadOnUpdate("pages/background");
  * If you do not use the css of the content script, please delete it.
  */
 reloadOnUpdate("pages/content/style.css");
+
+chrome.runtime.onInstalled.addListener(() => {
+  const defaultState: ExtensionDefaultState = {
+    config: {
+      isExtensionEnabled: false,
+      quoteSource: false,
+    },
+    socials: [
+      {
+        name: "twitter",
+        characterLimit: 280,
+        enabled: true,
+      },
+      {
+        name: "linkedin",
+        characterLimit: 1300,
+        enabled: true,
+      },
+      {
+        name: "facebook",
+        characterLimit: 63206,
+        enabled: false,
+      },
+      {
+        name: "whatsapp",
+        characterLimit: 65535,
+        enabled: false,
+      },
+    ],
+    bookmarks: [
+      {
+        id: "12345678",
+        title:
+          "ttebify/content-caddy: A browser extension to easily save, organise, and share sections of web content. (github.com)",
+        url: "https://github.com/ttebify/content-caddy",
+        excerpt:
+          "Content Caddy is a browser extension that allows you to save, organize, and share sections of web contents",
+        content:
+          "Content Caddy is a browser extension that allows you to save, organize, and share sections of web content easily. This extension was built using TypeScript and React.",
+        date: new Date().toISOString(),
+      },
+    ],
+  };
+
+  chrome.storage.sync.set(defaultState);
+});
 
 const excerptLength = 100; // set your desired excerpt length here
 
@@ -38,7 +85,7 @@ chrome.runtime.onMessage.addListener(function (request) {
     });
   } else if (request.type === "deleteBookmark") {
     chrome.storage.sync.get(["bookmarks"]).then(function (data) {
-      const bookmarks: any[] = data.bookmarks || [];
+      const bookmarks: Bookmark[] = data.bookmarks || [];
       const id = request.bookmarkId;
 
       const index = bookmarks.findIndex((bookmark) => bookmark.id === id);
@@ -80,11 +127,11 @@ function generateRandomId(length = 10) {
   return id;
 }
 
-function sendMessagePopup(data: any) {
+function sendMessagePopup(data: unknown) {
   chrome.runtime.sendMessage(data);
 }
 
-function sendMessageToClient(data: any) {
+function sendMessageToClient(data: unknown) {
   chrome.tabs
     .query({ active: true, currentWindow: true })
     .then(function (tabs) {

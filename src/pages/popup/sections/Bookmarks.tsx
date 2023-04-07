@@ -1,5 +1,5 @@
+import type { Bookmark } from "@src/types";
 import React, { useEffect, useState } from "react";
-import type { Bookmark } from "../types";
 
 interface BookmarkProps {
   bookmark: Bookmark;

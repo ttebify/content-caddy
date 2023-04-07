@@ -359,42 +359,48 @@ h1 {
   border-radius: 5px;
 }
 
+.social-icon {
+  margin-right: 1rem;
+}
+
+.social-icon img {
+  height: 30px;
+  width: 30px;
+}
+
 .share-option {
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: start;
 }
 
-.share-option .share-option-input label,
-input {
-  width: 100%;
-  margin-bottom: 6px;
-}
-.setting div.share-option-input {
-  margin-right: 5%;
-  margin-bottom: 12px;
+.social-details {
   width: 45%;
+  transition: all 0.3s ease-out; /* add transition to animate width change */
 }
 
-.setting div:last-child {
-  margin-right: 0;
-}
-p.setting-description {
-  margin-bottom: 0px;
+.social-details.expanded {
+  width: 100%; /* set width to 100% when expanded */
 }
 
-.setting input[type="text"],
-.setting input[type="number"] {
-  width: 100%;
-  height: 30px;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+.social-details .social-name {
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.add-button {
+.social-details .social-description {
+  font-size: 14px;
+  color: #808080;
+}
+
+.social-edit {
+  margin-left: 2%;
+}
+
+.edit-button {
   display: inline-block;
-  padding: 12px 20px;
-  font-size: 16px;
+  padding: 6px 9px;
+  font-size: 12px;
   font-weight: bold;
   color: #fff;
   background-color: #009d08;
@@ -405,8 +411,84 @@ p.setting-description {
   transition: background-color 0.2s ease;
 }
 
-.add-button:hover {
+.edit-button:hover {
   background-color: #008205;
+}
+
+.edit-social-details {
+  display: none;
+  padding: 0 24px; /* remove top/bottom padding to animate height change */
+  overflow: hidden; /* hide overflow to animate height change */
+  background-color: #fff;
+  box-shadow: 1px 1px 9px 0px #b1b1b152;
+  border: 1px solid #f1f1f1;
+  border-radius: 0px;
+  margin-top: -10px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease-out; /* add transition to animate height change */
+}
+
+.edit-social-details.expanded {
+  display: block;
+  padding: 24px;
+  height: auto; /* set height to auto when expanded */
+}
+
+.edit-social-input {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.edit-social-input label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.edit-social-input input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+.edit-social-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-button,
+.cancel-button {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #009d08;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 1px 1px 9px 0px #b1b1b152;
+  transition: background-color 0.2s ease;
+  margin-left: 3%;
+}
+
+.save-button:hover,
+.cancel-button:hover {
+  background-color: #008205;
+}
+
+.cancel-button {
+  margin-right: 12px;
+  background-color: #9b9b9b;
+}
+
+.cancel-button:hover {
+  background-color: #6d6d6d;
 }
 
 .checkbox {

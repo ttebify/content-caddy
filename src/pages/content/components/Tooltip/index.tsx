@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import ToolTip from "@src/pages/content/components/Tooltip/Tooltip";
 import refreshOnUpdate from "virtual:reload-on-update-in-view";
+import React from "react";
 
 refreshOnUpdate("pages/content");
 

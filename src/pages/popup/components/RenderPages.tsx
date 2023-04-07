@@ -4,7 +4,7 @@ import RenderSection from "./RenderSection";
 import Bookmarks from "../sections/Bookmarks";
 import Settings from "../sections/Settings";
 import ContactDeveloper from "../sections/ContactDeveloper";
-import type { Tab } from "../types";
+import type { Tab } from "@src/types";
 
 interface RenderSectionsProps {
   activeTab: Tab;
