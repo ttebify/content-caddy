@@ -14,7 +14,7 @@
   "homepage": "https://github.com/ttebify/content-caddy#readme",
   "scripts": {
     "build": "tsc --noEmit && vite build",
-    "build:watch": "__DEV__=true vite build --watch",
+    "build:watch": "vite build --watch",
     "build:hmr": "rollup --config utils/reload/rollup.config.ts",
     "wss": "node utils/reload/initReloadServer.js",
     "dev": "npm run build:hmr && (run-p wss build:watch)",
