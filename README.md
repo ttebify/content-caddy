@@ -36,6 +36,18 @@ To run tests, run `yarn test`. This will run all tests using Jest.
 
 Content Caddy is an open-source project, and we welcome anyone who's interested in contributing to the development of the extension. If you'd like to get involved, please check out our GitHub repository and submit a pull request with your changes. Together, we can make Content Caddy the best browser extension for organizing and sharing web content!
 
+## ✨ Contributors
+
+- We really like it when people contribute to this project! You can contribute too!
+- We would be very grateful for any contributions you make.
+- Let's keep contributing to help the project stay active and grow.
+
+<a href="https://github.com/ttebify/content-caddy/graphs/contributors">
+  <p>
+    <img src="https://contrib.rocks/image?repo=ttebify/content-caddy" alt="A table of avatars from the project's contributors" />
+  </p>
+</a>
+
 ## Credits
 
 This project was created from the template [Chrome Extension Boilerplate with React + Vite + Typescript.](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
