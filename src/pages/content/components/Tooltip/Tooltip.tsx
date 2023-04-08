@@ -103,8 +103,10 @@ export default function Tooltip() {
 
   const handleSelection = useCallback((event: MouseEvent | KeyboardEvent) => {
     // check if the active element is a text input field
-    const activeElement = document.activeElement as HTMLElement;
-    const isTextInput = new InputDetector(activeElement).isInputField();
+    const activeElement = event.target as HTMLElement;
+    const isTextInput = new InputDetector(
+      activeElement.parentElement
+    ).isInputField();
 
     // Leave this to improve inputDetector api. See: https://github.com/ttebify/content-caddy/issues/21
     // console.log(isTextInput, activeElement);
