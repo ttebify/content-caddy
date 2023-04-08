@@ -106,6 +106,9 @@ export default function Tooltip() {
     const activeElement = document.activeElement as HTMLElement;
     const isTextInput = new InputDetector(activeElement).isInputField();
 
+    // Leave this to improve inputDetector api. See: https://github.com/ttebify/content-caddy/issues/21
+    // console.log(isTextInput, activeElement);
+
     if (isTextInput) {
       return false;
     }
