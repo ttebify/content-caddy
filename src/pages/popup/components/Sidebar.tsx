@@ -37,7 +37,7 @@ const Sidebar = ({ setActiveTab, activeTab }: SidebarProps) => {
           </li>
           <li className={clsx({ active: activeTab === "developer" })}>
             <a href="#" onClick={() => setActiveTab("developer")}>
-              Contact Developer
+              Github
             </a>
           </li>
         </ul>
