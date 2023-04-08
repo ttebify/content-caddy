@@ -28,3 +28,11 @@ export type ExtensionConfigAndSocials = Omit<
   ExtensionDefaultState,
   "bookmarks"
 >;
+
+export interface WebsiteDetectionOptions {
+  href: RegExp;
+  classNames: string[];
+  selectors: string[];
+  attributes: string[];
+  threshold: number;
+}
