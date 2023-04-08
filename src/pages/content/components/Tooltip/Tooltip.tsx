@@ -1,4 +1,5 @@
 import type { ExtensionConfigAndSocials, Social } from "@src/types";
+import { InputDetector } from "@src/api";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const actions = [
@@ -101,6 +102,16 @@ export default function Tooltip() {
   }, []);
 
   const handleSelection = useCallback((event: MouseEvent | KeyboardEvent) => {
+    // check if the active element is a text input field we will add the check here
+    const activeElement = document.activeElement as HTMLElement;
+    const isTextInput = new InputDetector(activeElement).isInputField();
+
+    // console.log(isTextInput, activeElement);
+
+    if (isTextInput) {
+      return false;
+    }
+
     const selection = window.getSelection();
     const range = document.createRange();
 
