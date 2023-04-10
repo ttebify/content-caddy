@@ -1,5 +1,6 @@
 import type { Bookmark } from "@src/types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useFuse } from "../../../../utils";
 
 interface BookmarkProps {
   bookmark: Bookmark;
@@ -46,18 +47,37 @@ const BookmarkCard = ({ bookmark, deleteBookmark }: BookmarkProps) => {
 };
 
 const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [query, setQuery] = useState("");
+  const [bookmarksData, setBookmarksData] = useState<Bookmark[]>([]);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(bookmarksData);
+
+  const fuseOptions = {
+    keys: ["url", "title", "content", "date"],
+    threshold: 0.4,
+  };
+  const results = useFuse<Bookmark>(bookmarksData, query, fuseOptions);
+
+  useEffect(() => {
+    if (query.length === 0) {
+      setBookmarks(bookmarksData);
+    } else {
+      const collection = results.map((result) => result.item);
+      setBookmarks(collection);
+    }
+  }, [bookmarksData, query, results]);
 
   useEffect(() => {
     chrome.storage.sync.get(["bookmarks"]).then(function (data) {
       const bookmarks: Bookmark[] = data.bookmarks || [];
-      setBookmarks(bookmarks);
+      setBookmarksData(bookmarks);
     });
   }, []);
 
   const deleteBookmarkById = (bookmarkId: string) => {
-    const currentBookmarks = bookmarks.filter((bmk) => bmk.id !== bookmarkId);
-    setBookmarks(currentBookmarks);
+    const currentBookmarks = bookmarksData.filter(
+      (bmk) => bmk.id !== bookmarkId
+    );
+    setBookmarksData(currentBookmarks);
   };
 
   const messageListener = (request: any) => {
@@ -80,12 +100,25 @@ const Bookmarks = () => {
     };
   });
 
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback((event) => {
+      const value = event.currentTarget.value;
+      setQuery(value.trim());
+    }, []);
+
   return (
     <div className="container">
       <h2>Your Bookmarks</h2>
       <p>
         View all the sections of web content you have saved using Content Caddy.
       </p>
+      <input
+        className="search-input"
+        type="text"
+        placeholder="Search bookmarks..."
+        value={query}
+        onChange={handleInputChange}
+      />
       {bookmarks.length === 0 ? (
         <p>You have not added any bookmark yet</p>
       ) : (
