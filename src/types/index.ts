@@ -36,3 +36,12 @@ export interface WebsiteDetectionOptions {
   attributes: string[];
   threshold: number;
 }
+
+export interface SendMessageOptions {
+  type: MessageType;
+  message: string;
+  success: boolean;
+  data?: object;
+}
+
+export type MessageType = "explainText" | "createBookmark" | "deleteBookmark";

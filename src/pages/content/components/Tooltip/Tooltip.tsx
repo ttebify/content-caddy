@@ -1,5 +1,6 @@
 import { InputDetector } from "@src/api";
 import type { ExtensionConfigAndSocials, Social } from "@src/types";
+import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const actions = [
@@ -10,7 +11,7 @@ const actions = [
     name: "copy",
   },
   {
-    name: "add",
+    name: "lightBulb",
   },
 ];
 
@@ -22,6 +23,9 @@ export default function Tooltip() {
   const [selectedText, setSelectedText] = useState("");
   const [extensionState, setExtensionState] =
     useState<ExtensionConfigAndSocials>();
+  const [requestExplaination, setRequestExplaination] = useState(false);
+  const [fetchingExplaination, setFetchingExplaination] = useState(false);
+  const [explanation, setExplaination] = useState("");
 
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -82,6 +86,16 @@ export default function Tooltip() {
           } else {
             console.log(request.message);
           }
+        } else if (request.type === "explainText") {
+          const message = request.message;
+
+          if (request.success) {
+            setExplaination(message);
+          } else {
+            console.error(message);
+            setExplaination("Error: Could not fetch explanation.");
+          }
+          setFetchingExplaination(false);
         }
       });
 
@@ -150,6 +164,7 @@ export default function Tooltip() {
         rawSelectedText.trim().length > 0
       ) {
         setSelectedText(rawSelectedText);
+        setExplaination("");
 
         // Highlight the selected text using the hiliteColor command (if available)
         if (document.queryCommandSupported("hiliteColor")) {
@@ -204,6 +219,7 @@ export default function Tooltip() {
   }, []);
 
   function removePreviousSelection() {
+    setRequestExplaination(false);
     // Remove previous highlight if any
     const previousHighlight = document.querySelector(
       ".content_caddy-highlight"
@@ -220,7 +236,6 @@ export default function Tooltip() {
 
   const handleButtonClick = (name: string, characterLimit?: number) => {
     const buttonName = name;
-    removePreviousSelection();
 
     switch (buttonName) {
       case "copy":
@@ -232,6 +247,7 @@ export default function Tooltip() {
           .catch((err) => {
             console.error("Failed to copy text: ", err);
           });
+        removePreviousSelection();
         break;
 
       case "twitter":
@@ -259,6 +275,7 @@ export default function Tooltip() {
                   window.location.href
                 )}&quote=${encodedText}${encodedSource}`;
           window.open(shareUrl, "_blank");
+          removePreviousSelection();
         } else {
           alert(`Text exceeds maximum length for sharing on ${buttonName}!`);
         }
@@ -269,12 +286,9 @@ export default function Tooltip() {
           selectedText
         )}`;
         window.open(whatsappUrl, "_blank");
+        removePreviousSelection();
         break;
       }
-
-      case "add":
-        // TODO: Implement bookmarking functionality
-        break;
 
       case "bookmark": {
         const title = document.title ? document.title : "Untitled page";
@@ -291,6 +305,21 @@ export default function Tooltip() {
           text: selection,
           url: schemeUrl,
         });
+
+        removePreviousSelection();
+
+        break;
+      }
+
+      case "lightBulb": {
+        setRequestExplaination(true);
+        setFetchingExplaination(true);
+
+        chrome.runtime.sendMessage({
+          type: "explainText",
+          text: selectedText,
+        });
+
         break;
       }
 
@@ -322,21 +351,33 @@ export default function Tooltip() {
               />
             </button>
           ))}
-        {actions.map((action) => (
-          <button
-            key={action.name}
-            type="button"
-            onClick={() => {
-              handleButtonClick(action.name);
-            }}
-          >
-            <img
-              src={chrome.runtime.getURL(`assets/icons/${action.name}.png`)}
-              alt={action.name}
-            />
-          </button>
-        ))}
+        {actions.map((action) => {
+          const handleClick: React.MouseEventHandler<HTMLButtonElement> = (
+            event
+          ) => {
+            event.preventDefault();
+            handleButtonClick(action.name);
+          };
+          return (
+            <button key={action.name} type="button" onClick={handleClick}>
+              <img
+                src={chrome.runtime.getURL(`assets/icons/${action.name}.png`)}
+                alt={action.name}
+              />
+            </button>
+          );
+        })}
       </div>
+      {requestExplaination && (
+        <div
+          className={clsx("explain-container", {
+            loading: fetchingExplaination,
+          })}
+        >
+          <div className="preview">{selectedText}</div>
+          <div className="explanation">{explanation}</div>
+        </div>
+      )}
     </div>
   );
 }
