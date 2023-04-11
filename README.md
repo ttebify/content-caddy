@@ -1,18 +1,19 @@
 # Content Caddy
 
-Content Caddy is a powerful browser extension designed to help you save, organise, and share web content effortlessly. With Content Caddy, you can quickly capture and store text sections from any web page, making it easy to keep track of important information and references.
+Content Caddy is a browser extension that makes it easy to save, organize, and share web content. With Content Caddy, you can capture and store text sections from any web page, keeping track of important information and references. It's perfect for research, projects, or browsing, and offers customization options like **highlighting and explaining text**.
 
-Whether you're conducting research, working on a project, or just browsing the web, Content Caddy is an essential tool for organizing your findings. The extension also comes with a range of customization options that allow you to personalize the way you save and access content, including the ability to **highlight and explain text** for better comprehension.
-
-This extension was built using the latest TypeScript and React, and it offers a highly intuitive and user-friendly interface that anyone can use, regardless of their level of technical expertise.
-
+Built with TypeScript and React, Content Caddy has a user-friendly interface for all levels of technical expertise.
 ## Highlight to Explain 🌟🤩 
 
-Content Caddy now includes a powerful new feature called **Highlight to Explain!** With this feature, you can simply highlight any word or phrase on a website, and get an explanation of its meaning in the context of the website you are reading, making your browsing experience more informative and enjoyable.
+Content Caddy introduces a powerful new feature called **Highlight to Explain!** This feature allows you to highlight any word or phrase on a website to get a contextual explanation, enhancing your browsing experience.
 
-To enable this feature, you'll need to generate an OpenAI API key. You can get one by following the instructions on the [OpenAI website.](https://platform.openai.com/account/api-keys) Once you have your API key, create a `.env` file in the root directory of the extension (you can rename the `.env-example` file that comes with the project after you clone it). Then, add the following line to the `.env` file, but replace `VITE_OPENAI_API_KEY` with your actual API key to include it in the project:
+To use the feature:
 
-With your API key added, Highlight to Explain will be ready to use! Simply highlight any word or phrase on a website, click on the explain icon, and you'll get a brief definition or explanation of the highlighted text. Thanks to the power of OpenAI, the explanations provided by this feature are accurate and detailed, making it easier than ever to understand the content you're reading.
+1. Generate an OpenAI API key by following the instructions on the [OpenAI website.](https://platform.openai.com/account/api-keys).
+2. Create a `.env` file in the root directory of the extension (you can rename the `.env-example` file that comes with the project after you clone it).
+3. Then, add `VITE_OPENAI_API_KEY=YOUR_API_KEY` to the `.env` file, but replace `YOUR_API_KEY` with your actual API key to include it in the project
+
+With the API key added, you can highlight any word or phrase on a website, click on the explain icon, and get a brief definition or explanation. The explanations provided by OpenAI are detailed and accurate, making it easier to comprehend website content.
 
 ## Getting Started
 
@@ -49,7 +50,7 @@ Content Caddy is an open-source project, and we welcome anyone who's interested 
 <a href="https://github.com/ttebify/content-caddy/graphs/contributors" style="display: flex; align-items: center;">
 <p>
   <img src="https://contrib.rocks/image?repo=ttebify/content-caddy" alt="A table of avatars from the project's contributors" />
-  <img width="65px" height="65px" src="https://avatars.githubusercontent.com/u/11428345?v=4" style="border-radius: 50%;margin-left: 2px;" />
+  <img width="65px" height="65px" src="https://avatars.githubusercontent.com/u/11428345?v=4" style="border-radius: 65px;margin-left: 2px;" />
 </p>
 </a>
 
