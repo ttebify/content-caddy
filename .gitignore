@@ -7,13 +7,14 @@
 # build
 /dist
 
-# local env files
-.env
 
 # etc
 .DS_Store
 .env.local
 .idea
+
+# local env files
+.env
 
 # compiled
 utils/reload/*.js
