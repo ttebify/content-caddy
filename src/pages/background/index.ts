@@ -1,3 +1,5 @@
+import { TextHighlightExplanationAPI } from "@src/api";
+import { sendMessageToClient } from "@src/api/helpers";
 import type { Bookmark, ExtensionDefaultState } from "@src/types";
 import reloadOnUpdate from "virtual:reload-on-update-in-background-script";
 
@@ -57,7 +59,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 const excerptLength = 100; // set your desired excerpt length here
 
-chrome.runtime.onMessage.addListener(function (request) {
+chrome.runtime.onMessage.addListener(async function (request) {
   if (request.type === "createBookmark") {
     const excerpt = request.text.slice(0, excerptLength) + "..."; // create the excerpt from the selected text
 
@@ -92,7 +94,7 @@ chrome.runtime.onMessage.addListener(function (request) {
       if (index >= 0) {
         bookmarks.splice(index, 1);
         chrome.storage.sync.set({ bookmarks: bookmarks }).then(function () {
-          sendMessagePopup({
+          sendMessageToClient({
             type: "deleteBookmark",
             success: true,
             message: `Bookmark with id ${id} deleted`,
@@ -100,7 +102,7 @@ chrome.runtime.onMessage.addListener(function (request) {
           });
         });
       } else {
-        sendMessagePopup({
+        sendMessageToClient({
           type: "deleteBookmark",
           success: false,
           message: `Bookmark with id ${id} not found`,
@@ -108,6 +110,22 @@ chrome.runtime.onMessage.addListener(function (request) {
         });
       }
     });
+  } else if (request.type === "explainText") {
+    const text = request.text;
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    const textHighlightAPI = new TextHighlightExplanationAPI(apiKey);
+    const selectors = [
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "meta[name='description']",
+      "p",
+    ];
+
+    await textHighlightAPI.explainText(text, selectors);
   }
 });
 
@@ -125,19 +143,4 @@ function generateRandomId(length = 10) {
     id += range[Math.floor(Math.random() * (range.length - 1))];
   }
   return id;
-}
-
-function sendMessagePopup(data: unknown) {
-  chrome.runtime.sendMessage(data);
-}
-
-function sendMessageToClient(data: unknown) {
-  chrome.tabs
-    .query({ active: true, currentWindow: true })
-    .then(function (tabs) {
-      const tab = tabs[0];
-      if (tab.id) {
-        chrome.tabs.sendMessage(tab.id, data);
-      }
-    });
 }

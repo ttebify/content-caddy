@@ -63,7 +63,6 @@ export class InputDetector {
    * Checks if the number of matches found meets the threshold required to identify the node as an input field.
    */
   private checkThreshold(matches: number, total: number): boolean {
-    console.log(matches, total);
     return total > 0 && matches / total >= this.options.threshold;
   }
 

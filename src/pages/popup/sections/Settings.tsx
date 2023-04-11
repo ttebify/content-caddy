@@ -83,8 +83,6 @@ function Settings() {
     modifyExtensionConfig({ socials: modifiedSocials });
   };
 
-  console.log(extensionState);
-
   return (
     <div className="container">
       <h2>Settings</h2>

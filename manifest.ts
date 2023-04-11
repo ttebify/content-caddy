@@ -5,7 +5,7 @@ import packageJson from "./package.json";
  */
 const manifest: chrome.runtime.ManifestV3 = {
   manifest_version: 3,
-  name: packageJson.name,
+  name: "ContentCaddy",
   version: packageJson.version,
   description: packageJson.description,
   background: {
@@ -22,7 +22,14 @@ const manifest: chrome.runtime.ManifestV3 = {
     "48": "assets/icons/icon-48.png",
     "128": "assets/icons/icon-128.png",
   },
-  permissions: ["activeTab", "clipboardRead", "clipboardWrite", "storage"],
+  permissions: [
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+    "storage",
+    "scripting",
+  ],
+  host_permissions: ["http://*/*", "https://*/*", "<all_urls>"],
   content_scripts: [
     {
       matches: ["http://*/*", "https://*/*", "<all_urls>"],

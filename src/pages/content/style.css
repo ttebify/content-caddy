@@ -14,13 +14,13 @@
   border-radius: 5px;
   padding: 10px;
   padding-top: 0px;
-  flex-direction: column;
-  align-items: center;
   font-size: 14px;
   border-width: 1px 0px 0px 1px;
   border-style: solid;
   border-color: #cfcfcf;
   z-index: 9999;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 #content_caddy-tooltip #row {
@@ -59,4 +59,104 @@
 #content_caddy-tooltip img {
   width: 24px;
   height: 24px;
+}
+
+/* Explain text feature */
+.explain-container {
+  padding: 10px;
+  max-width: 400px;
+  width: 400px;
+  margin-top: 10px;
+}
+
+.explain-container .preview {
+  background-color: #faf0cc;
+  border-left: 3px solid #a8905a;
+  padding: 2px 10px;
+  color: #a8905a;
+  font-size: 12px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.explain-container .explanation {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  margin-top: 10px;
+  padding: 4px;
+  position: relative;
+  color: #333;
+}
+
+.explain-container .explanation:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.explain-container .explanation:hover:after {
+  content: "Click to copy";
+  display: block;
+  font-size: 12px;
+  opacity: 0;
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: #a8905a;
+  color: #fff;
+  border-radius: 5px;
+  transition: opacity 0.3s ease;
+}
+
+.explain-container .explanation:hover:hover:after {
+  opacity: 1;
+}
+
+.explain-container .explanation:hover:active {
+  background-color: #ddd;
+  color: #333;
+}
+
+/* Skeleton loader styles */
+.explain-container.loading .preview,
+.explain-container.loading .explanation {
+  background-color: #eee;
+}
+
+.explain-container.loading .explanation {
+  height: 48px;
+  overflow: hidden;
+}
+
+.explain-container.loading .explanation:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
 }
