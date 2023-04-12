@@ -1,14 +1,43 @@
-// Used for Explaining highlighted text
-
 import { sendMessageToClient } from "./helpers";
 
+/**
+ * A class for generating concise explanations of highlighted text on a webpage
+ * @class TextHighlightExplanationAPI
+ */
 export class TextHighlightExplanationAPI {
+  /**
+   * The API key used to authenticate with the OpenAI API
+   * @private
+   */
+
   private apiKey: string;
+
+  /**
+   * The extracted text from the page used for generating explanation exposed for testing purposes
+   * @public
+   */
+
   public extractedText: string;
+
+  /**
+   *
+   * Creates an instance of TextHighlightExplanationAPI.
+   * @constructor
+   * @param {string} apiKey - The API key used to authenticate with the OpenAI API
+   */
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
   }
+
+  /**
+   * Generates an explanation for the given highlighted text within the specified page sections
+   * @async
+   * @public
+   * @param {string} text - The highlighted text to generate an explanation for
+   * @param {string[]} selectors - The selectors of the page sections to focus on
+   * @throws {Error} If no selectors are provided
+   */
 
   public async explainText(text: string, selectors: string[]): Promise<void> {
     try {
@@ -39,7 +68,7 @@ export class TextHighlightExplanationAPI {
               document.querySelectorAll(selectors.join(", "))
             )
               .filter((h) => allHeadingTagsUpercased.includes(h.tagName))
-              .map((h: HTMLHeadElement) => h.innerText.trim());
+              .map((h: HTMLHeadingElement) => h.innerText.trim());
             return headings;
           },
         }),
@@ -104,6 +133,15 @@ export class TextHighlightExplanationAPI {
       });
     }
   }
+
+  /**
+   * Generates an explanation for the given text in the context of the specified sections using the OpenAI AP
+   * @async
+   * @private
+   * @param {string} text - The text to generate an explanation for
+   * @param {string} context - The context of the specified section
+   * @returns {Promise<{ text: string; success: boolean }>} The generated explanation and success status
+   */
 
   private async generateExplanation(
     text: string,
