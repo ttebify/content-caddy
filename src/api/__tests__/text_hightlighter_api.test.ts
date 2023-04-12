@@ -109,7 +109,13 @@ describe("TextHighlightExplanationAPI", () => {
         } else if (opts.func.name === "getMetaDescription") {
           return [{ result: "Meta description" }];
         } else if (opts.func.name === "getParagraphs") {
-          return [{ result: "Paragraph 1" }, { result: "Paragraph 2" }];
+          return [
+            { result: "Paragraph 1" }, // this should only be seen as we currently get only the first paragraph
+            { result: "Paragraph 2" },
+            { result: "Paragraph 3" },
+          ];
+        } else if (opts.func.name === "getTitle") {
+          return [{ result: "Page Title" }];
         }
       });
       mockFetch.mockResolvedValue({
@@ -148,9 +154,9 @@ describe("TextHighlightExplanationAPI", () => {
         success: true,
       });
 
-      // Check that the extracted text includes all matched selectors
+      // Check that the extracted text includes all matched selectors and the page title
       expect(api.extractedText).toEqual(
-        "Heading 1,Heading 2,Heading 3,Heading 4 Meta description Paragraph 1"
+        "Page Title Heading 1,Heading 2,Heading 3,Heading 4 Meta description Paragraph 1"
       );
     });
   });

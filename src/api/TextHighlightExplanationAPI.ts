@@ -50,49 +50,56 @@ export class TextHighlightExplanationAPI {
         throw new Error("No selectors provided.");
       }
 
-      const [headingsResult, metaResult, paragraphsResult] = await Promise.all([
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          args: [selectors],
-          func: function getHeadings(selectors) {
-            const allHeadingTagsUpercased = [
-              "H1",
-              "H2",
-              "H3",
-              "H4",
-              "H5",
-              "H6",
-            ];
+      const [headingsResult, metaResult, paragraphsResult, titleResult] =
+        await Promise.all([
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            args: [selectors],
+            func: function getHeadings(selectors) {
+              const allHeadingTagsUpercased = [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+              ];
 
-            const headings = Array.from(
-              document.querySelectorAll(selectors.join(", "))
-            )
-              .filter((h) => allHeadingTagsUpercased.includes(h.tagName))
-              .map((h: HTMLHeadingElement) => h.innerText.trim());
-            return headings;
-          },
-        }),
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: function getMetaDescription() {
-            const meta = document.querySelector(
-              'meta[name="description"]'
-            ) as HTMLMetaElement | null;
-            return meta?.content || null;
-          },
-        }),
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          args: [selectors],
-          func: function getParagraphs(selectors) {
-            const paragraphs = Array.from(
-              document.querySelectorAll<HTMLElement>(selectors.join(", "))
-            ).filter((p) => p.tagName === "P");
-            // Get only the first one for now
-            return paragraphs.length ? paragraphs[0].innerText.trim() : null;
-          },
-        }),
-      ]);
+              const headings = Array.from(
+                document.querySelectorAll(selectors.join(", "))
+              )
+                .filter((h) => allHeadingTagsUpercased.includes(h.tagName))
+                .map((h: HTMLHeadingElement) => h.innerText.trim());
+              return headings;
+            },
+          }),
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: function getMetaDescription() {
+              const meta = document.querySelector(
+                'meta[name="description"]'
+              ) as HTMLMetaElement | null;
+              return meta?.content || null;
+            },
+          }),
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            args: [selectors],
+            func: function getParagraphs(selectors) {
+              const paragraphs = Array.from(
+                document.querySelectorAll<HTMLElement>(selectors.join(", "))
+              ).filter((p) => p.tagName === "P");
+              // Get only the first one for now
+              return paragraphs.length ? paragraphs[0].innerText.trim() : null;
+            },
+          }),
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: function getTitle() {
+              return document.title;
+            },
+          }),
+        ]);
 
       // Check that the results are valid before using them
       const headings =
@@ -108,7 +115,10 @@ export class TextHighlightExplanationAPI {
           ? paragraphsResult[0].result
           : null;
 
-      const extractedText = [headings, metaDescription, paragraphs]
+      const pageTitle =
+        titleResult && titleResult[0].result ? titleResult[0].result : null;
+
+      const extractedText = [pageTitle, headings, metaDescription, paragraphs]
         .filter((x) => !!x)
         .join(" ");
 
