@@ -109,7 +109,7 @@ export class TextHighlightExplanationAPI {
     text: string,
     context: string
   ): Promise<{ text: string; success: boolean }> {
-    const prompt = `Please provide a concise explanation of "${text}" in the context of the following elements on the webpage: ${context}`;
+    const prompt = `Please provide a concise explanation of "${text}" in the context of the following sections on the webpage: ${context}`;
 
     try {
       const response = await fetch("https://api.openai.com/v1/completions", {
