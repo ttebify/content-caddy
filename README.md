@@ -11,8 +11,8 @@ To use the feature:
 
 1. Generate an OpenAI API key by following the instructions on the [OpenAI website.](https://platform.openai.com/account/api-keys).
 2. Click on the Content Caddy extension icon to open the popup, then go to the Settings tab.
-3. Click on the **"Add a new key"** button and enter your OpenAI API key.
-4. Click on "Save" to save your changes.
+3. Click on the `"Add a new key"` button and enter your OpenAI API key.
+4. Click on `"Save"` to save your changes.
 
 With your API key added, you can now highlight any word or phrase on a website, click on the explain icon, and get a brief definition or explanation. The explanations provided by OpenAI are detailed and accurate, making it easier to comprehend website content.
 
