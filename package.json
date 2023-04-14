@@ -1,7 +1,7 @@
 {
   "name": "content-caddy",
-  "version": "0.0.1",
-  "description": "A browser extension to easily save, organise, and share sections of web content.",
+  "version": "0.0.2",
+  "description": "A browser extension to easily save, organise, and share sections of web content packed with a powerful Highlight to Explain feature.",
   "license": "MIT",
   "repository": {
     "type": "git",

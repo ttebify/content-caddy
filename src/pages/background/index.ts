@@ -43,13 +43,12 @@ chrome.runtime.onInstalled.addListener(() => {
     bookmarks: [
       {
         id: "12345678",
-        title:
-          "ttebify/content-caddy: A browser extension to easily save, organise, and share sections of web content. (github.com)",
+        title: "Content Caddy",
         url: "https://github.com/ttebify/content-caddy",
         excerpt:
-          "Content Caddy is a browser extension that allows you to save, organize, and share sections of web contents",
+          "A browser extension to easily save, organise, and share sections of web content packed with a powerful Highlight to Explain feature.",
         content:
-          "Content Caddy is a browser extension that allows you to save, organize, and share sections of web content easily. This extension was built using TypeScript and React.",
+          "A browser extension to easily save, organise, and share sections of web content packed with a powerful Highlight to Explain feature.. This extension was built using TypeScript and React.",
         date: new Date().toISOString(),
       },
     ],
@@ -115,7 +114,6 @@ chrome.runtime.onMessage.addListener(async function (request) {
     chrome.storage.sync
       .get({ config: { apiKey: "" } })
       .then(async function (data) {
-        console.log(data, "heyyy");
         const apiKey: string = data.config.apiKey;
         if (!apiKey || apiKey.length === 0) {
           sendMessageToClient({

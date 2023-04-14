@@ -68,7 +68,6 @@ function Settings() {
       chrome.storage.sync.get(
         ["config", "socials"],
         (result: ExtensionDefaultState) => {
-          console.log(result);
           setExtensionState({
             config: result.config,
             socials: result.socials,

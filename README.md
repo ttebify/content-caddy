@@ -10,10 +10,11 @@ Content Caddy introduces a powerful new feature called **Highlight to Explain!**
 To use the feature:
 
 1. Generate an OpenAI API key by following the instructions on the [OpenAI website.](https://platform.openai.com/account/api-keys).
-2. Create a `.env` file in the root directory of the extension (you can rename the `.env-example` file that comes with the project after you clone it).
-3. Then, add `VITE_OPENAI_API_KEY=YOUR_API_KEY` to the `.env` file, but replace `YOUR_API_KEY` with your actual API key to include it in the project
+2. Click on the Content Caddy extension icon to open the popup, then go to the Settings tab.
+3. Click on the **"Add a new key"** button and enter your OpenAI API key.
+4. Click on "Save" to save your changes.
 
-With the API key added, you can highlight any word or phrase on a website, click on the explain icon, and get a brief definition or explanation. The explanations provided by OpenAI are detailed and accurate, making it easier to comprehend website content.
+With your API key added, you can now highlight any word or phrase on a website, click on the explain icon, and get a brief definition or explanation. The explanations provided by OpenAI are detailed and accurate, making it easier to comprehend website content.
 
 ## Getting Started
 
