@@ -5,7 +5,6 @@ import makeManifest from "./utils/plugins/make-manifest";
 import customDynamicImport from "./utils/plugins/custom-dynamic-import";
 import addHmr from "./utils/plugins/add-hmr";
 import manifest from "./manifest";
-import dotenv from "dotenv";
 
 const root = resolve(__dirname, "src");
 const pagesDir = resolve(root, "pages");
@@ -18,9 +17,6 @@ const isProduction = !isDev;
 
 // ENABLE HMR IN BACKGROUND SCRIPT
 const enableHmrInBackgroundScript = true;
-
-// Load the environment variables from the .env file
-dotenv.config();
 
 export default defineConfig({
   resolve: {

@@ -5,6 +5,7 @@ import type {
   ExtensionDefaultState,
   Social,
 } from "@src/types";
+import OpenAiKeyInput from "../components/OpenAIKeyInput";
 
 function Settings() {
   const [extensionState, setExtensionState] =
@@ -67,6 +68,7 @@ function Settings() {
       chrome.storage.sync.get(
         ["config", "socials"],
         (result: ExtensionDefaultState) => {
+          console.log(result);
           setExtensionState({
             config: result.config,
             socials: result.socials,
@@ -81,6 +83,12 @@ function Settings() {
       social.name === editedSocial.name ? editedSocial : social
     );
     modifyExtensionConfig({ socials: modifiedSocials });
+  };
+
+  const handleSetAPiKey = (key: string) => {
+    modifyExtensionConfig({
+      config: { ...extensionState.config, apiKey: key },
+    });
   };
 
   return (
@@ -144,6 +152,10 @@ function Settings() {
               <label htmlFor="add-quote"></label>
             </div>
           </div>
+          <OpenAiKeyInput
+            setApiKey={handleSetAPiKey}
+            unsafe_key={extensionState.config.apiKey}
+          />
           {extensionState.socials.map((social) => (
             <ShareOption
               key={social.name}

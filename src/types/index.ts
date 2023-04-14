@@ -17,6 +17,7 @@ export interface ExtensionDefaultState {
   config: {
     isExtensionEnabled: boolean;
     quoteSource: boolean;
+    apiKey: string;
   };
   socials: Social[];
   bookmarks: Bookmark[];

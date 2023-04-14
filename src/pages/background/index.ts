@@ -16,6 +16,7 @@ chrome.runtime.onInstalled.addListener(() => {
     config: {
       isExtensionEnabled: false,
       quoteSource: false,
+      apiKey: "",
     },
     socials: [
       {
@@ -111,21 +112,35 @@ chrome.runtime.onMessage.addListener(async function (request) {
       }
     });
   } else if (request.type === "explainText") {
-    const text = request.text;
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    const textHighlightAPI = new TextHighlightExplanationAPI(apiKey);
-    const selectors = [
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "meta[name='description']",
-      "p",
-    ];
+    chrome.storage.sync
+      .get({ config: { apiKey: "" } })
+      .then(async function (data) {
+        console.log(data, "heyyy");
+        const apiKey: string = data.config.apiKey;
+        if (!apiKey || apiKey.length === 0) {
+          sendMessageToClient({
+            type: "explainText",
+            success: false,
+            message: `To use the highlight to explain feature, you need to add your OpenAI API key in the extension settings.`,
+            data: {},
+          });
+        } else {
+          const text = request.text;
+          const textHighlightAPI = new TextHighlightExplanationAPI(apiKey);
+          const selectors = [
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "meta[name='description']",
+            "p",
+          ];
 
-    await textHighlightAPI.explainText(text, selectors);
+          await textHighlightAPI.explainText(text, selectors);
+        }
+      });
   }
 });
 

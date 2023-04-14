@@ -93,7 +93,9 @@ export default function Tooltip() {
             setExplaination(message);
           } else {
             console.error(message);
-            setExplaination("Error: Could not fetch explanation.");
+            setExplaination(
+              `Error: Could not fetch explanation. Reason: ${message}`
+            );
           }
           setFetchingExplaination(false);
         }
