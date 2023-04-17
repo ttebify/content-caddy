@@ -18,7 +18,19 @@ With your API key added, you can now highlight any word or phrase on a website, 
 
 ## Getting Started
 
-Although Content Caddy extension is not yet published, you can still use it in your browser. Getting started with this extension is a breeze! Just follow the steps below:
+The Content Caddy extension is currently only available on Microsoft's web store for the first version, which can be found at this URL: https://microsoftedge.microsoft.com/addons/detail/icblaofpjceadeagkejnojmknpbkhpdd. The published version does not have any highlights or explanations yet.
+
+If you'd like to start using this extension, simply follow these easy steps:
+
+1. Open your Microsoft Edge browser.
+2. Go to the Microsoft web store at the URL provided above.
+3. Click on the "Get" button to download and install the extension.
+4. Once the installation is complete, you should see the Content Caddy icon in your browser toolbar.
+5. Click on the icon to start using the extension and explore its features.
+
+Note that this version is still in its early stages, so you may encounter some bugs or glitches. If you have any issues or suggestions, please don't hesitate to contact the developer.
+
+If you would like to have a more stable version of the Content Caddy extension with highlight to explain feature, you can build it from the source code and load it onto your browser. To do this, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Run `yarn install` to install the dependencies.
