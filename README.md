@@ -18,33 +18,32 @@ With your API key added, you can now highlight any word or phrase on a website, 
 
 ## Getting Started
 
-The Content Caddy extension is currently only available on Microsoft's web store for the first version, which can be found at this URL: https://microsoftedge.microsoft.com/addons/detail/icblaofpjceadeagkejnojmknpbkhpdd. The published version does not have any highlights or explanations yet.
+Note that this version is still in its early stages, so you may encounter some bugs or glitches. If you have any issues or suggestions, please don't hesitate to contact the developers here by creating an issue.
 
-If you'd like to start using this extension, simply follow these easy steps:
+## Installation
+
+### Option 1: Install from the Microsoft Web Store
 
 1. Open your Microsoft Edge browser.
-2. Go to the Microsoft web store at the URL provided above.
+2. Go to the Microsoft web store at the following URL: https://microsoftedge.microsoft.com/addons/detail/icblaofpjceadeagkejnojmknpbkhpdd.
 3. Click on the "Get" button to download and install the extension.
 4. Once the installation is complete, you should see the Content Caddy icon in your browser toolbar.
 5. Click on the icon to start using the extension and explore its features.
 
-Note that this version is still in its early stages, so you may encounter some bugs or glitches. If you have any issues or suggestions, please don't hesitate to contact the developer.
-
-If you would like to have a more stable version of the Content Caddy extension with highlight to explain feature, you can build it from the source code and load it onto your browser. To do this, follow these steps:
+### Option 2: Build and install from source code
 
 1. Clone the repository to your local machine.
 2. Run `yarn install` to install the dependencies.
-3. Run `yarn dev` to start the development server. This will compile the extension with HMR (Hot Module Replacement) enabled and start a server to reload the extension automatically.
+3. Run `yarn build` to build the extension.
 4. Open your browser and go to the Extensions page. (In Chrome, go to `chrome://extensions/`.)
 5. Enable Developer Mode in the top right corner if it's not already enabled.
 6. Click "Load unpacked" and select the `dist` folder in the project directory.
-7. The extension should now be installed and ready to use.
 
-Note: If you make any changes to the code, the extension will automatically reload thanks to HMR.
+The extension should now be installed and ready to use.
 
-## Building
+## Build for development
 
-To build the extension, run `yarn build`. This will compile the TypeScript files and bundle them with Vite.
+To build the extension in development mode, run `yarn dev` tto start the development server. This will compile the extension with HMR (Hot Module Replacement) enabled and start a server to reload the extension automatically.
 
 ## Testing
 
