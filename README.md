@@ -1,5 +1,7 @@
 # Content Caddy
 
+![Large promotional tile](/public/assets/images/large-promotional-tile.png)
+
 Content Caddy is a browser extension that makes it easy to save, organize, and share web content. With Content Caddy, you can capture and store text sections from any web page, keeping track of important information and references. It's perfect for research, projects, or browsing, and offers customization options like **highlighting and explaining text**.
 
 Built with TypeScript and React, Content Caddy has a user-friendly interface for all levels of technical expertise.
