@@ -961,10 +961,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/chrome@0.0.224":
-  version "0.0.224"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.224.tgz#0138497299eaaf261d61ece62d7d6af3868ce856"
-  integrity sha512-YkL7q3KDV7OAKgVCBNIfH73rnjNMbIzAYHzTa2DKhSK/2z0Wf/n8yJnK/UoW+lvuYJJR4LtAkG3YvsIZTy7BOA==
+"@types/chrome@0.0.241":
+  version "0.0.241"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.241.tgz#c6274ef2377ace4e67713591aacc13d8e6c1dca6"
+  integrity sha512-3WxC2D8zhyDnCU1GxyznoyUulLH6ReLWUWQm5LSM7S1rvV9w+k8TUNbWrFavk6zz2E1ws05lNawnSa7rK5kY8Q==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
